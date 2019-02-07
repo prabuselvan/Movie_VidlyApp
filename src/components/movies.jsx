@@ -1,10 +1,13 @@
 import React from 'react';
 import {getMovies} from '../services/fakeMovieService'
-
+import Pagination from './common/pagination';
 class Movies extends React.Component {
 
     state = {
-        movies: getMovies()
+        movies: getMovies(),
+        pageSize: 4,
+        currentPage:1,
+        likeState: true
     }
 
     onDeleteMovie=(movie)=> {
@@ -23,8 +26,16 @@ class Movies extends React.Component {
         // } 
     }
 
+    handlePageChange=page=> {
+        console.log('page is ',page);
+        this.setState({
+            currentPage:page,
+        });
+    }
+
     render() {
         const {length: count} = this.state.movies;
+        const  {currentPage, pageSize}= this.state;
         if(count===0) return <p className="alert alert-danger"> No Movies in the database</p>
         return(
             <React.Fragment>
@@ -60,6 +71,10 @@ class Movies extends React.Component {
                                                     {movies.dailyRentalRate}
                                             </td>
                                             <td>
+                                              <i className="fa fa-heart" aria-hidden="true"
+                                              onClick={()=> this.Like()}></i>      
+                                            </td>
+                                            <td>
                                                 <button className="btn btn-danger btn-sm"
                                                         onClick={()=> this.onDeleteMovie(movies)}> Delete </button>
                                             </td>
@@ -72,13 +87,25 @@ class Movies extends React.Component {
                         {/* </tr> */}
                         </tbody>
                     </table>
+                
+    
+                <Pagination itemsCount={count} pageSize={pageSize} currentPage={currentPage} onPageChange={this.handlePageChange}/>
             </React.Fragment>
         )
     }
 
-    renderMovies() {
-        
+    Like=(e)=> {
+        let classes ="likecomp";
+        const {likeState}= this.state;
+         classes += likeState === false ? classes : ""
+         this.setState({
+             likeState:!likeState
+         })
+         console.log(classes);
+         return classes;
     }
+
+ 
 }
 
 export default Movies;
