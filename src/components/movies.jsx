@@ -5,7 +5,7 @@ class Movies extends React.Component {
 
     state = {
         movies: getMovies(),
-        pageSize: 4,
+        pageSize: 3,
         currentPage:1,
         likeState: true
     }
@@ -27,10 +27,8 @@ class Movies extends React.Component {
     }
 
     handlePageChange=page=> {
-        console.log('page is ',page);
-        this.setState({
-            currentPage:page,
-        });
+        // console.log(page);
+        this.setState( {currentPage:  page});
     }
 
     render() {
@@ -89,7 +87,12 @@ class Movies extends React.Component {
                     </table>
                 
     
-                <Pagination itemsCount={count} pageSize={pageSize} currentPage={currentPage} onPageChange={this.handlePageChange}/>
+               <Pagination 
+                            itemsCount= {count}
+                            pageSize={pageSize}
+                            onPageChange={this.handlePageChange}
+                            currentPage={currentPage}
+                            />
             </React.Fragment>
         )
     }
